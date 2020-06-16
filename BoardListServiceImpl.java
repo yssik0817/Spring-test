@@ -62,7 +62,7 @@ public class BoardListServiceImpl implements BoardListService {
         pdto.setEndPage(endPage);
       //시작 값
       int start=(pdto.getCurrentPage()-1)*pdto.getLinePerPage()+1;
-      int end = pdto.getCurrentPage()*pdto.getLinePerPage()+1;
+      int end = pdto.getCurrentPage()*pdto.getLinePerPage();
       Map<String,Integer> hmap = new HashMap<String, Integer>();
       hmap.put("start",start);
       logger.info("start"+start);
@@ -85,9 +85,11 @@ public class BoardListServiceImpl implements BoardListService {
 	   if(pdto.getCurrPageBlock()==0) {
        pdto.setCurrPageBlock(1);
 	   }
+
 	   
 	   //해당되는 게시글 가져오기
 	   BoardDTO bdto2 = boardDao.getArticle(bdto);
+	   logger.info("wrriter: "+ bdto2.getWriter());
 	   //처리된 결과를 controller에게 전달하기 위해 담기
 	   Map<String, Object> cmap = new HashMap<String, Object>();
     

@@ -31,7 +31,7 @@ public class BoardWriteServiceImpl implements BoardWriteService {
 		return pdto;
 	}
 	public void writeProArticle(BoardDTO bdto, HttpServletRequest request, 
-			HttpServletResponse resonse) {
+			HttpServletResponse response) {
 //	   Map<String, Object> mutlDTO =
 //			   ServletUpload.uploadEx(req, res);
 	   	 //DAO를 통해서 받은 데이터 저장하기
@@ -56,6 +56,31 @@ public class BoardWriteServiceImpl implements BoardWriteService {
 		}
 	
 		boardDao.boardWrite(bdto);
+	}
+	@Override
+	public PageDTO updatePro(PageDTO pdto, BoardDTO bdto, HttpServletRequest request, 
+			HttpServletResponse response )  {
+		//페이지에 대한 처리가 있어야 함.
+		  	   if(pdto.getCurrentPage()==0) {
+		       pdto.setCurrentPage(1);
+			   }
+			   if(pdto.getCurrPageBlock()==0) {
+		       pdto.setCurrPageBlock(1);
+			   }
+		
+		boardDao.boardUpdate(bdto);
+		return pdto;
+	}
+	@Override
+	public PageDTO deletePro(PageDTO pdto, int num) {
+		 	   if(pdto.getCurrentPage()==0) {
+		       pdto.setCurrentPage(1);
+			   }
+			   if(pdto.getCurrPageBlock()==0) {
+		       pdto.setCurrPageBlock(1);
+			   }
+		boardDao.deletePro(num);
+		return pdto;
 	}
 	
 	

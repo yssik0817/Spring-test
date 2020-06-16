@@ -13,14 +13,21 @@
                          RE_LEVEL, ATTACHNM                       
                    FROM BOARD                                     
                    ORDER BY REF DESC, RE_STEP ASC) RBOARD) A
-    <if test="start!=null">
-    WHERE A.RR BETWEEN #{start} AND #{end}                                    
-    </if>
-    
-    <if test="num!=null">
-    where NUM=#{num}
-    </if>                 
+    <choose>
+  		  <when test="num!=null">
+   			 where NUM = #{num}
+   		 </when>
+    <otherwise>
+    	<if test="start!=null and start!=0">
+   			 WHERE A.RR BETWEEN #{start} AND #{end}                                    
+   		</if>
+    </otherwise>               
+    </choose>               
  </select>
+ 
+ <update id="updateReadCount" parameterType="hashmap">
+ 	UPDATE FROM BOARD SET READCNT = READCNT+1 WHERE NUM=#{num}
+ </update>
  
  <select id="newNum" resultType="int">
  	select nvl(max(num),0)+1 num from board
@@ -34,4 +41,17 @@
  				sysdate,0,#{ref},#{re_step},#{re_level},#{attachNm})
  </insert>
  
+  <update id="updatePro" parameterType="bdto">
+ 	UPDATE BOARD SET 
+ 		  SUBJECT  = #{subject}
+ 		, EMAIL    = #{email}
+ 		, CONTENT  = #{content}
+ 		, PASSWD   = #{passwd}
+ 		, ATTACHNM = #{attachNm}
+ 	WHERE NUM = #{num}
+ </update>
+ 
+ <delete id="deleteArticle" parameterType="int">
+ 	DELETE FROM BOARD WHERE NUM=#{num}
+ </delete>
 </mapper>
