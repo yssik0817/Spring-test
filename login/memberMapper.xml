@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="member">
+  <insert id="joinMember" parameterType="mdto">
+     <selectKey keyProperty="memseq" resultType="int" order="BEFORE">
+       SELECT NVL(MAX(MEMSEQ),0)+1 memseq FROM MEMTB
+     </selectKey>
+      INSERT INTO 
+      MEMTB(MEMID
+           , MEMSEQ
+           , MEMNAME
+           , MEMTEL
+           , MEMBIRTH
+           , REGDATE
+           , MEMEMAIL
+           , MEMGENDER
+           , PASSWD)
+      VALUES(#{memid}
+           , #{memseq}
+           , #{memname}
+           , #{memtel}
+           , #{membirth}
+           , SYSDATE
+           , #{mememail}
+           , #{memgender}
+           , #{passwd})
+  </insert>
+
+</mapper>
+

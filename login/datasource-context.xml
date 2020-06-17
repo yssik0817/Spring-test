@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+   
+   
+   <!-- Root Context: defines shared resources visible to all other web components -->
+   <!-- database setting -->
+<bean id="dataSourceOR" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+       <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+       <property name="url" value="jdbc:oracle:thin:@127.0.0.1:1521:xe"/>
+       <property name="username" value="user3"/>
+       <property name="password" value="oracle"/>
+   </bean>
+   <bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
+      <constructor-arg ref="dataSourceOR"/>
+      <property name="logFormatter">
+         <bean class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter">
+            <property name="loggingType" value="MULTI_LINE"/>
+            <property name="sqlPrefix" value="[SQL]: "/>
+         </bean>
+      </property>
+   </bean>
+   <!-- db connection info. -->
+   <!-- 1.mybatis f/w db connect 2.sql file location setting -->
+   <bean id = "sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean" lazy-init="true">
+      <property name="dataSource" ref="dataSource"/>
+      <property name="configLocation" value="/WEB-INF/spring/Mybatis-Config.xml"/>
+      <property name="mapperLocations" value="classpath*:**/mapper/*Mapper.xml"/>
+   </bean>
+   <bean id="sqlsession" class="org.mybatis.spring.SqlSessionTemplate">
+      <constructor-arg ref="sqlSessionFactory"/>
+   </bean>
+</beans>
