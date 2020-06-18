@@ -72,11 +72,9 @@
         <tr>
             <th>이메일 </th>           
             <td><input type="email" size="70%" 
-               placeholder="메일주소를 작성해주세요.(형식:abcd@abc.ent) " 
+               placeholder="메일주소를 작성해주세요.(형식:abcde@gmail.com) " 
                name="mememail" title="이메일" class="chk"/></td>           
         </tr>
-        
-         
         
         <tr>
            <td colspan="2" align="right">

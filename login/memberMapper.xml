@@ -26,5 +26,30 @@
            , #{passwd})
   </insert>
 
+ <select id="memberList" parameterType="hashmap" resultType="mdto">
+   SELECT A.*                                                          
+   FROM (SELECT ROWNUM RR, REMEMBER.*                               
+           FROM  (SELECT MEMID, MEMSEQ, MEMNAME, MEMTEL, MEMBIRTH, 
+           			REGDATE, MEMEMAIL, MEMGENDER, PASSWD                     
+                    FROM MEMTB                                     
+                    ORDER BY MEMSEQ DESC) REMEMBER) A
+    <choose>
+  		  <when test="memid!=null and memid!=0">
+   			 where MEMID = #{memid}
+   		 </when>
+<!--     <otherwise> -->
+<!--     	<if test="start!=null and start!=0"> -->
+<!--    			 WHERE A.RR BETWEEN #{start} AND #{end}                                     -->
+<!--    		</if> -->
+<!--     </otherwise>                -->
+    </choose>               
+ </select>
+
+<select id="allCount" resultType="int">
+	SELECT COUNT(memid) ALLCNT FROM MEMTB
+</select>
+
+
+
 </mapper>
 
